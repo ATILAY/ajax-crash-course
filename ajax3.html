@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 3 External</title>
+    <style>
+    #users{
+        display: flex;
+        visibility: visible;
+
+    }
+    .user {
+        display: inline;
+        padding: 10px;
+        margin-bottom: 10px;
+
+    }
+    .user ul {
+        list-style: none;
+
+    }
+    </style>
+</head>
+<body>
+    <button id="button3">Load GitHub Users</button>
+    <br>
+    <h1>GitHub Users</h1>
+    <div id="users">
+
+    </div>
+
+    <script>
+    document.getElementById('button3').addEventListener('click', loadUsers);
+        
+     //   https://www.youtube.com/watch?v=82hnvUYY6QA   sonlara dogru
+
+    //Load github users
+    function loadUsers(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.github.com/users' , true);
+        console.log('line 32:::');
+        
+        xhr.onload = function(){
+            debugger
+            console.log('line 35:::');
+            console.log('this.status:::',this.status);
+            if( this.status == 200 ){
+                let users = JSON.parse(this.responseText);
+                console.log("users::", users);
+                let output = '';
+                for(var i in users){
+                    output += '<div class="user">'+ 
+                        '<img src="'+users[i].avatar_url+'" width="70" height="70">' + 
+                        '<ul>' +
+                        '<li>ID: '+users[i].id+'</li>'+
+                        '<li>Login: '+users[i].login+'</li>'+
+                        '</ul>'+
+                        '</div>';
+
+
+
+
+
+
+                }//for
+                document.getElementById('users').innerHTML = output;
+
+
+            }//if
+        }//func
+
+        xhr.send();
+    }//loadUsers
+    </script>
+</body>
+</html>
